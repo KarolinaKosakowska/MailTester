@@ -19,11 +19,12 @@ namespace MailTester
                 model.MailTo.ForEach(m => message.To.Add(new MailAddress(m)));
                 message.Subject = model.Title;
                 message.Body = model.Body;
-                var smtp = new SmtpClient("smtp.gmail.com"); //To do App.config
-                smtp.UseDefaultCredentials = false; //To do App.config
-                smtp.Credentials = new NetworkCredential("sendermail589", ""); //To do App.config
-                smtp.EnableSsl = true; //To do App.config
-                smtp.Port = 587; //To do App.config
+                var smtp = new SmtpClient(); //To do App.config
+                //smtp.UseDefaultCredentials = false; //To do App.config
+                //smtp.Credentials = new NetworkCredential("sendermail589", ""); //To do App.config
+                //smtp.EnableSsl = true; //To do App.config
+                //smtp.Port = 587; //To do App.config
+           
                 smtp.Send(message);
                 return true;
             }

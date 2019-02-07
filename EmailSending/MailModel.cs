@@ -8,6 +8,11 @@ namespace MailTester
 {
     public class MailModel
     {
+        public List<string> MailTo { get; set; }
+        public string MailFrom { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+
         public MailModel()
         {
             MailTo = new List<string>();
@@ -25,9 +30,6 @@ namespace MailTester
             MailTo.AddRange(temp);
             MailTo.Remove(string.Empty);
         }
-        public List<string> MailTo { get; set; }
-        public string MailFrom { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
+   
     }
 }
