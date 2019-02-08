@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,6 +52,17 @@ namespace MailTester
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tbFrom_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbFrom_MouseClick(object sender, MouseEventArgs e)
+        {
+            SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+            tbFrom.Text = $"{section.From}";
         }
     }
 }

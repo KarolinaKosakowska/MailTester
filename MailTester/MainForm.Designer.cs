@@ -95,6 +95,8 @@
             this.tbFrom.Name = "tbFrom";
             this.tbFrom.Size = new System.Drawing.Size(366, 20);
             this.tbFrom.TabIndex = 4;
+            this.tbFrom.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbFrom_MouseClick);
+            this.tbFrom.TextChanged += new System.EventHandler(this.tbFrom_TextChanged);
             // 
             // label4
             // 
