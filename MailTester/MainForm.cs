@@ -38,31 +38,24 @@ namespace MailTester
         {
             label2.Visible = true;
         }
-
         private void label1_MouseLeave(object sender, EventArgs e)
         {
             label2.Visible = false;
         }
-
-        private void tbTo_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbFrom_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void tbFrom_MouseClick(object sender, MouseEventArgs e)
         {
-            SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
-            tbFrom.Text = $"{section.From}";
+            SetSender();
         }
+        private void tbTitle_Enter(object sender, EventArgs e)
+        {
+            SetSender();
+        }
+        private void SetSender()
+        {
+            SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+            tbFrom.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? $"{section.From}" : tbFrom.Text;
+        }
+
+        
     }
 }

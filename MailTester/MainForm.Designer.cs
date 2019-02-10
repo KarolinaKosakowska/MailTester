@@ -56,7 +56,6 @@
             this.tbTo.Name = "tbTo";
             this.tbTo.Size = new System.Drawing.Size(366, 20);
             this.tbTo.TabIndex = 1;
-            this.tbTo.TextChanged += new System.EventHandler(this.tbTo_TextChanged);
             // 
             // label1
             // 
@@ -96,7 +95,6 @@
             this.tbFrom.Size = new System.Drawing.Size(366, 20);
             this.tbFrom.TabIndex = 4;
             this.tbFrom.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbFrom_MouseClick);
-            this.tbFrom.TextChanged += new System.EventHandler(this.tbFrom_TextChanged);
             // 
             // label4
             // 
@@ -106,7 +104,6 @@
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "Tytuł";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tbTitle
             // 
@@ -114,6 +111,7 @@
             this.tbTitle.Name = "tbTitle";
             this.tbTitle.Size = new System.Drawing.Size(366, 20);
             this.tbTitle.TabIndex = 6;
+            this.tbTitle.Enter += new System.EventHandler(this.tbTitle_Enter);
             // 
             // rtbBody
             // 
