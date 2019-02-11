@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileLogger;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace MailTester
         {
             try
             {
+                LogInfo logInfo = new LogInfo("SendMailInfo.txt");
+                logInfo.Log("Próba wysłania wiadomości");
+
                 var message = new MailMessage();
                 message.From = new MailAddress(model.MailFrom,"Karolina Kosakowska");
                 model.MailTo.ForEach(m => message.To.Add(new MailAddress(m)));
@@ -32,8 +36,10 @@ namespace MailTester
             }
             catch (Exception ex)
             {
-                throw;
-                //return false;
+                LogError logError = new LogError("SendMailError.txt");
+                logError.Log($"{ex.Message}");
+                return false;
+                
             }
         }
     }

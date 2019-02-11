@@ -18,8 +18,7 @@ namespace MailTester
         {
             InitializeComponent();
 
-            tbTo.Text = EmailSending.People.GetMail();
-            
+            tbTo.Text = EmailSending.People.GetMail();   
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -34,7 +33,6 @@ namespace MailTester
             model.Title = tbTitle.Text;
             model.Body = rtbBody.Text;
             MailService.Send(model);
-
         }
 
         private void label1_MouseHover(object sender, EventArgs e)
