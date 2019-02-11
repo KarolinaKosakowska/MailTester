@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="MailModel.cs" />
     <Compile Include="MailService.cs" />
+    <Compile Include="People.cs" />
+    <Compile Include="PersonalData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

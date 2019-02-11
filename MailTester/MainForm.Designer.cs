@@ -56,6 +56,7 @@
             this.tbTo.Name = "tbTo";
             this.tbTo.Size = new System.Drawing.Size(366, 20);
             this.tbTo.TabIndex = 1;
+            this.tbTo.TextChanged += new System.EventHandler(this.tbTo_TextChanged);
             // 
             // label1
             // 

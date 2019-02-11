@@ -17,6 +17,9 @@ namespace MailTester
         public MainForm()
         {
             InitializeComponent();
+
+            tbTo.Text = EmailSending.People.GetMail();
+            
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -54,6 +57,12 @@ namespace MailTester
         {
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             tbFrom.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? $"{section.From}" : tbFrom.Text;
+        }
+
+        private void tbTo_TextChanged(object sender, EventArgs e)
+        {
+
+;
         }
 
         
