@@ -19,13 +19,15 @@ namespace MailTester
         {
             InitializeComponent();
 
-            tbTo.Text = EmailSending.People.GetMail();
+            tbTo.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? EmailSending.People.GetMail() : tbTo.Text;
         }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
             EmailCheck(tbTo, "Niepoprawny format email Adresatów");
             EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego");
+            TitleCheck(tbTitle, "Tytuł nie może być pusty");
+            BodyCheck(rtbBody, "Treść nie może być pusta");
 
             //string text = Send.Text;
             ////var b = (Button)sender; // Rzuca wyjątkiem w przypadku błędnego typu.
@@ -60,9 +62,9 @@ namespace MailTester
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             tbFrom.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? $"{section.From}" : tbFrom.Text;
         }
-        private void EmailCheck(TextBox field ,string errorText)
+        private void EmailCheck(TextBox field, string errorText)
         {
-            string emailTo =field.Text;
+            string emailTo = field.Text;
             Regex regex = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
                                     + "@"
                                     + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$");
@@ -72,11 +74,23 @@ namespace MailTester
             {
                 MessageBox.Show(errorText, "", MessageBoxButtons.OK);
             }
-
+        }
+        private void TitleCheck(TextBox field, string errorText)
+        {
+            if (string.IsNullOrWhiteSpace(field.Text))
+            {
+                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
+            }         
 
         }
+        private void BodyCheck(RichTextBox field, string errorText)
+        {
+            if (string.IsNullOrWhiteSpace(field.Text))
+            {
+                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
+            }
 
-
+        }
     }
 
 }

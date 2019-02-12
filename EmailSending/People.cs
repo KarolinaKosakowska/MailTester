@@ -34,6 +34,7 @@ namespace EmailSending
        
         public static string GetMail()
         {
+
             //string email = null;
             //foreach (EmailSending.PersonalData person in EmailSending.People.PeopleList)
             //{
@@ -41,8 +42,8 @@ namespace EmailSending
             //}
             //return email;
 
-           var emailArray = PeopleList.Where(p => p.Name == "Miś").Select(p => p.Email).ToArray();
-           var email =string.Join(";",emailArray);
+           var emailsArray = PeopleList.Where(p => p.Name == "Miś").Select(p => p.Email).ToArray();
+           var email =string.Join("; ",emailsArray);
            return email;
         }
 
