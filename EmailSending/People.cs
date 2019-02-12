@@ -16,13 +16,13 @@ namespace EmailSending
                 {
                     Name = "Miś",
                     LastName="Uszatek",
-                    Email="mis.uszatek@bajka.pl"
+                    Email=""
                 },
                 new PersonalData
                 {
                     Name = "Miś",
                     LastName="Koralgol",
-                    Email="m.koralgol.postac@gmail.com"
+                    Email=""
                 },
                 new PersonalData
                 {

@@ -13,11 +13,15 @@ namespace MailTester
 {
     public static class MailService
     {
+        static readonly string InfoFileName= "SendMailInfo.txt";
+        static readonly string ErrorFileName= "SendMailError.txt";
+
+
         public static bool Send(MailModel model)
         {
             try
             {
-                LogInfo logInfo = new LogInfo("SendMailInfo.txt");
+                LogInfo logInfo = new LogInfo(InfoFileName);
                 logInfo.Log("Próba wysłania wiadomości");
 
                 var message = new MailMessage();
@@ -36,7 +40,7 @@ namespace MailTester
             }
             catch (Exception ex)
             {
-                LogError logError = new LogError("SendMailError.txt");
+                LogError logError = new LogError(ErrorFileName);
                 logError.Log($"{ex.Message}");
                 return false;
                 

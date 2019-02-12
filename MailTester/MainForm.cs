@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net.Configuration;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,11 +19,14 @@ namespace MailTester
         {
             InitializeComponent();
 
-            tbTo.Text = EmailSending.People.GetMail();   
+            tbTo.Text = EmailSending.People.GetMail();
         }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            EmailCheck(tbTo, "Niepoprawny format email Adresatów");
+            EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego");
+
             //string text = Send.Text;
             ////var b = (Button)sender; // Rzuca wyjątkiem w przypadku błędnego typu.
             //var b = sender as Button; // Zwróci null w przypadku nieudanej konwersji.
@@ -47,7 +51,7 @@ namespace MailTester
         {
             SetSender();
         }
-        private void tbTitle_Enter(object sender, EventArgs e)
+        private void tbFrom_Enter(object sender, EventArgs e)
         {
             SetSender();
         }
@@ -56,13 +60,24 @@ namespace MailTester
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             tbFrom.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? $"{section.From}" : tbFrom.Text;
         }
-
-        private void tbTo_TextChanged(object sender, EventArgs e)
+        private void EmailCheck(TextBox field ,string errorText)
         {
+            string emailTo =field.Text;
+            Regex regex = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                                    + "@"
+                                    + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$");
+            Match match = regex.Match(emailTo);
+            if (match.Success) { }
+            else
+            {
+                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
+            }
 
-;
+
         }
 
-        
+
     }
+
 }
+

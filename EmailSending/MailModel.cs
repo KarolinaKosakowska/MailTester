@@ -1,7 +1,9 @@
-﻿using System;
+﻿using FileLogger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MailTester
@@ -24,12 +26,13 @@ namespace MailTester
             Title = title;
             Body = body;
         }
+
         public void SetMailTo(string emails)
         {
             var temp = emails.Split(';');
             MailTo.AddRange(temp);
             MailTo.Remove(string.Empty);
         }
-   
+
     }
 }
