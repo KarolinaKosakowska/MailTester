@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net.Configuration;
@@ -23,22 +24,21 @@ namespace MailTester
         }
 
         private void SendButton_Click(object sender, EventArgs e)
-        {
-            EmailCheck(tbTo, "Niepoprawny format email Adresatów");
-            EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego");
-            TitleCheck(tbTitle, "Tytuł nie może być pusty");
-            BodyCheck(rtbBody, "Treść nie może być pusta");
-
-            //string text = Send.Text;
-            ////var b = (Button)sender; // Rzuca wyjątkiem w przypadku błędnego typu.
-            //var b = sender as Button; // Zwróci null w przypadku nieudanej konwersji.
-            //text = b.Text;
+        { 
+           
             MailModel model = new MailModel();
             model.MailFrom = tbFrom.Text;
             model.SetMailTo(tbTo.Text);
             model.Title = tbTitle.Text;
             model.Body = rtbBody.Text;
-            MailService.Send(model);
+
+            if ((EmailCheck(tbTo, "Niepoprawny format email Adresatów")==true)      
+                &&(EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego")==true)
+                &&(TitleCheck(tbTitle, "Czy tytuł ma pozostać pusty")==true))
+            {
+                MailService.Send(model);
+            }   
+            
         }
 
         private void label1_MouseHover(object sender, EventArgs e)
@@ -62,34 +62,49 @@ namespace MailTester
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             tbFrom.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? $"{section.From}" : tbFrom.Text;
         }
-        private void EmailCheck(TextBox field, string errorText)
+        private bool EmailCheck(TextBox field, string errorText)
         {
+            bool decision = true;
             string emailTo = field.Text;
             Regex regex = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
                                     + "@"
                                     + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$");
             Match match = regex.Match(emailTo);
-            if (match.Success) { }
+            if (match.Success) { decision = true; }
             else
             {
-                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
+                MessageBox.Show(errorText, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                decision = false;
             }
+            return decision;
+            //to zadziała jesli wpiszemy pojedyny eamil.
+            //Nie wiem jak utworzyc regex dla emaili wprowadzanych z mojej listy PeopleList z metody GetMail...
         }
-        private void TitleCheck(TextBox field, string errorText)
+
+        private bool TitleCheck(TextBox field, string errorText)
         {
+
+            bool decision = true;
             if (string.IsNullOrWhiteSpace(field.Text))
             {
-                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
-            }         
+                DialogResult dr = MessageBox.Show(errorText, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                switch (dr)
+                {
+                    case DialogResult.Yes:
+                        decision = true;
+                        break;
 
-        }
-        private void BodyCheck(RichTextBox field, string errorText)
-        {
-            if (string.IsNullOrWhiteSpace(field.Text))
-            {
-                MessageBox.Show(errorText, "", MessageBoxButtons.OK);
+                    case DialogResult.No:
+                        decision = false;
+                        break;
+
+                }
             }
+            return decision;
 
+            //field.Text = string.IsNullOrWhiteSpace(field.Text) ? MessageBox.Show(errorText, "", MessageBoxButtons.OK) : field.Text;
+
+            //dlaczego ten zapis nie działa? Roziemiem ze przez konwersje, ale nie wiem jak to naprawic.            
         }
     }
 
