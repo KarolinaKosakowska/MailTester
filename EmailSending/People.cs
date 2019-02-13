@@ -16,19 +16,19 @@ namespace EmailSending
                 {
                     Name = "Miś",
                     LastName="Uszatek",
-                    Email=""
+                    Email="mis-uszatek.bajka@fdfdfd.ckh"
                 },
                 new PersonalData
                 {
                     Name = "Miś",
                     LastName="Koralgol",
-                    Email=""
+                    Email="mis-koralgol.bajka@fdfdfd.kk"
                 },
                 new PersonalData
                 {
                     Name = "Koziołek",
                     LastName="Matołek",
-                    Email="k.matolek@gmail.com"
+                    Email="k.matolek@gu67i7i7.p"
                 }
         };
        
@@ -43,7 +43,7 @@ namespace EmailSending
             //return email;
 
            var emailsArray = PeopleList.Where(p => p.Name == "Miś").Select(p => p.Email).ToArray();
-           var email =string.Join("; ",emailsArray);
+           var email =string.Join(";",emailsArray); 
            return email;
         }
 

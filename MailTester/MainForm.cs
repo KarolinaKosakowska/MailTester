@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileLogger;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net.Configuration;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,30 +18,40 @@ namespace MailTester
 {
     public partial class MainForm : Form
     {
+        static readonly string ErrorFileName = "SendMailError.txt";
         public MainForm()
-        {
+        {            
             InitializeComponent();
 
             tbTo.Text = string.IsNullOrWhiteSpace(tbFrom.Text) ? EmailSending.People.GetMail() : tbTo.Text;
         }
 
         private void SendButton_Click(object sender, EventArgs e)
-        { 
-           
-            MailModel model = new MailModel();
-            model.MailFrom = tbFrom.Text;
-            model.SetMailTo(tbTo.Text);
-            model.Title = tbTitle.Text;
-            model.Body = rtbBody.Text;
-
-            if ((EmailCheck(tbTo, "Niepoprawny format email Adresatów")==true)      
-                &&(EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego")==true)
-                &&(TitleCheck(tbTitle, "Czy tytuł ma pozostać pusty")==true))
+        {
+            bool connection = NetworkInterface.GetIsNetworkAvailable();
+          
+            if (connection == true)
             {
-                MailService.Send(model);
-            }   
-            
-        }
+                MailModel model = new MailModel();
+                model.MailFrom = tbFrom.Text;
+                model.SetMailTo(tbTo.Text);
+                model.Title = tbTitle.Text;
+                model.Body = rtbBody.Text;
+
+                if ((EmailCheck(tbTo, "Niepoprawny format email Adresatów") == true)
+                    && (EmailCheck(tbFrom, "Niepoprawny format email Wysyłającego") == true)
+                    && (TitleCheck(tbTitle, "Czy tytuł ma pozostać pusty") == true))
+                {
+                    MailService.Send(model);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Brak internetu ,sprawdź połączenie", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LogError logError = new LogError(ErrorFileName);
+                logError.Log("Internet connection error");         
+            }
+       }
 
         private void label1_MouseHover(object sender, EventArgs e)
         {
@@ -76,14 +88,11 @@ namespace MailTester
                 MessageBox.Show(errorText, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 decision = false;
             }
-            return decision;
-            //to zadziała jesli wpiszemy pojedyny eamil.
-            //Nie wiem jak utworzyc regex dla emaili wprowadzanych z mojej listy PeopleList z metody GetMail...
+            return decision;           
         }
 
         private bool TitleCheck(TextBox field, string errorText)
         {
-
             bool decision = true;
             if (string.IsNullOrWhiteSpace(field.Text))
             {
@@ -97,15 +106,11 @@ namespace MailTester
                     case DialogResult.No:
                         decision = false;
                         break;
-
                 }
             }
-            return decision;
-
-            //field.Text = string.IsNullOrWhiteSpace(field.Text) ? MessageBox.Show(errorText, "", MessageBoxButtons.OK) : field.Text;
-
-            //dlaczego ten zapis nie działa? Roziemiem ze przez konwersje, ale nie wiem jak to naprawic.            
+            return decision;                   
         }
+
     }
 
 }
