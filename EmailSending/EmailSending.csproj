@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FileLogger">
-      <HintPath>..\..\..\source\repos\KarolinaKosakowska\Logger\FileLogger\bin\Debug\FileLogger.dll</HintPath>
+      <HintPath>..\FileLogger.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
